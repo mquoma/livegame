@@ -12,8 +12,13 @@ defmodule Live.Application do
       supervisor(Live.Repo, []),
       # Start the endpoint when the application starts
       supervisor(LiveWeb.Endpoint, []),
+      worker(LiveWeb.Broadcaster, []),
       # Start your own worker by calling: Live.Worker.start_link(arg1, arg2, arg3)
       # worker(Live.Worker, [arg1, arg2, arg3]),
+      %{
+        id: Phoenix.PubSub.PG2,
+        start: {Phoenix.PubSub.PG2, :start_link, [:fridge, []]}
+      }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
